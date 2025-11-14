@@ -13,7 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-         <link rel="stylesheet" href="css/styleUserDash_2.css"/>
+         <link rel="stylesheet" href="css/styleUserDash_3.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -39,11 +39,6 @@
                 </div>
                 <nav>
                     <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardUser"  class="menu-item active" >Dashboard</a>
-                    <div class="menu-item ">Mi aprendizaje</div>
-                    <div class="menu-item">Cursos populares</div>
-                    <div class="menu-item">Material educativo disponible</div>
-                    <div class="menu-item">Mi perfil</div>
-                    <div class="menu-item">Opciones</div>
                     <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion"  class="menu-item" >Cerrar sesión </a>
   
                 </nav>
@@ -51,8 +46,16 @@
 
             <main class="main-content">
                 <header class="header">
+                <div class="welcome-text">
+                        <h1>Registrar libro</h1>
+                        <p>Comparte tu libro con la comunidad</p>
+                    </div>
                     <div class="header-right">
-                     <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardUser" class="add-cancel-btn" style="display: inline-block; text-decoration: none;">Cancelar</a>
+                        <a href="ElegirMaterial.jsp" 
+                           class="add-cancel-btn" 
+                           style="text-decoration: none;">
+                            ← Cancelar
+                        </a>
                     </div>
                 </header>
 

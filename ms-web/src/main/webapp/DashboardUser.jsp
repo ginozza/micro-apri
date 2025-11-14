@@ -16,10 +16,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Dashboard Usuarios</title>
-        <link rel="stylesheet" href="css/styleUserDash_2.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styleUserDash_3.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     </head>
 
     <body>
@@ -69,7 +69,6 @@
                 <nav>
                     <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardUser"  class="menu-item active">Dashboard</a>
                     <div class="menu-item ">Mi aprendizaje</div>
-                    <div class="menu-item">Cursos populares</div>
                     <div class="menu-item">Material educativo disponible</div>
                     <div class="menu-item">Mi perfil</div>
                     <div class="menu-item">Opciones</div>

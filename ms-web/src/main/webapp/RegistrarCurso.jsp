@@ -6,7 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Artículo</title>
+    <title>Registrar Curso</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/styleUserDash_3.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,12 +40,11 @@
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
             <header class="header">
                 <div class="welcome-text">
-                    <h1>Registrar Artículo</h1>
-                    <p>Comparte tu artículo con la comunidad</p>
+                    <h1>Registrar Curso</h1>
+                    <p>Crea un nuevo curso para la comunidad</p>
                 </div>
                 <div class="header-right">
                     <a href="ElegirMaterial.jsp" 
@@ -56,30 +55,19 @@
                 </div>
             </header>
 
-            <h2 class="page-title">Información del Artículo</h2>
+            <h2 class="page-title">Información del Curso</h2>
 
-            <!-- Formulario de Registro -->
-            <form action="<%=Ruta.MS_MATEDU_URL%>/ArticuloControll?accion=register&idUsuario=<%=userDto.id_persona()%>" 
+            <form action="<%=Ruta.MS_MATEDU_URL%>/CursoControll?accion=register&idUsuario=<%=userDto.id_persona()%>" 
                   method="POST" 
-                  enctype="multipart/form-data" 
                   class="form-container">
 
                 <div class="form-group">
-                    <label for="nombre">Nombre del Artículo *</label>
+                    <label for="nombre">Nombre del Curso *</label>
                     <input type="text" 
                            id="nombre" 
                            name="nombre" 
-                           placeholder="Ej: Inteligencia Artificial en la Medicina Moderna"
+                           placeholder="Ej: Introducción a la Programación en Java"
                            required>
-                </div>
-
-                <div class="form-group">
-                    <label for="descripcion">Descripción *</label>
-                    <textarea id="descripcion" 
-                              name="descripcion" 
-                              rows="5" 
-                              placeholder="Escribe una breve descripción del artículo, su objetivo y contenido principal..."
-                              required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -104,23 +92,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="volumen">Volumen *</label>
-                    <input type="number" 
-                           id="volumen" 
-                           name="volumen" 
-                           min="1" 
-                           placeholder="Ej: 1"
-                           required>
-                </div>
-
-                <div class="form-group">
-                    <label for="cantidad_paginas">Cantidad de Páginas *</label>
-                    <input type="number" 
-                           id="cantidad_paginas" 
-                           name="cantidad_paginas" 
-                           min="1" 
-                           placeholder="Ej: 15"
-                           required>
+                    <label for="descripcion">Descripción *</label>
+                    <textarea id="descripcion" 
+                              name="descripcion" 
+                              rows="5" 
+                              placeholder="Describe el contenido del curso, objetivos de aprendizaje y qué aprenderán los estudiantes..."
+                              required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -130,21 +107,30 @@
                            name="año_publicacion" 
                            required>
                 </div>
-                
                 <div class="form-group">
-                    <label for="archivoPDF">Subir Archivo (PDF) *</label>
-                    <input type="file" 
-                           id="archivoPDF" 
-                           name="archivoPDF" 
-                           accept=".pdf"
+                    <label for="duracion">Duración (en horas) *</label>
+                    <input type="number" 
+                           id="duracion" 
+                           name="duracion" 
+                           min="1" 
+                           step="0.5"
+                           placeholder="Ej: 20"
                            required>
-                    <small style="color: #718096; font-size: 12px; margin-top: 5px; display: block;">
-                        Solo se permiten archivos PDF (máx. 10MB)
-                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo de Curso *</label>
+                    <select id="nivel" name="nivel" required>
+                        <option value="" disabled selected>Selecciona el tipo</option>
+                        <option value="Basico">Básico</option>
+                        <option value="Intermedio">Intermedio</option>
+                        <option value="Avanzado">Avanzado</option>
+                        <option value="Especializado">Especializado</option>
+                    </select>
                 </div>
                 
                 <button type="submit" class="submit-btn">
-                    Publicar Artículo
+                    Crear Curso
                 </button>
             </form>
         </main>
@@ -153,9 +139,10 @@
     <%
         String exito = request.getParameter("mensaje");
         String fallo = request.getParameter("error");
+        String idCurso = request.getParameter("idCurso");
         String titulo = null, text = null, icon = null;
 
-        if (exito != null) {
+        if (exito != null && idCurso != null) {
             titulo = "¡Éxito!";
             text = exito;
             icon = "success";
@@ -176,7 +163,7 @@
                 confirmButtonColor: '#405370'
             }).then((result) => {
                 if (result.isConfirmed && '<%= icon %>' === 'success') {
-                    window.location.href = '<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardUser';
+                    window.location.href = '<%=Ruta.MS_MATEDU_URL%>/ModuloControll?accion=listarModulos&idCurso=<%=idCurso%>';
                 }
             });
         </script>

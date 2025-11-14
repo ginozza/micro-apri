@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elige tu material educativo</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="css/styleUserDash_2.css"/>
+    <link rel="stylesheet" href="css/styleUserDash_3.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -35,11 +35,6 @@
                 <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardUser" class="menu-item active">
                      Dashboard
                 </a>
-                <div class="menu-item ">Mi aprendizaje</div>
-                <div class="menu-item">Cursos populares</div>
-                <div class="menu-item ">Material disponible</div>
-                <div class="menu-item">Mi perfil</div>
-                <div class="menu-item">️Configuración</div>
                 <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion" class="menu-item">
                     Cerrar sesión
                 </a>

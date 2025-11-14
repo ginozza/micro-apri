@@ -9,6 +9,7 @@ public class Curso extends MaterialEducativo {
     
     private int id_curso;
     private int duracion;
+    private String nivel;
     private List<Modulo> lista_modulos;
 
     public Curso(int id_curso, int duracion) {
@@ -16,10 +17,11 @@ public class Curso extends MaterialEducativo {
         this.duracion = duracion;
     }
 
-    public Curso(int id_curso, int duracion, int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion,  String descripcion, boolean estado, Usuario usuario) {
+    public Curso(int id_curso, int duracion, int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion,  String descripcion, boolean estado, Usuario usuario, String nivel) {
         super(id_materialEducativo, categoria, nombre, año_publicacion, "Curso", descripcion, estado, usuario);
         this.id_curso = id_curso;
         this.duracion = duracion;
+        this.nivel=nivel;
         this.lista_modulos = new ArrayList<>();
     }
 
@@ -71,6 +73,20 @@ public class Curso extends MaterialEducativo {
      */
     public void setLista_modulos(List<Modulo> lista_modulos) {
         this.lista_modulos = lista_modulos;
+    }
+
+    /**
+     * @return the nivel
+     */
+    public String getNivel() {
+        return nivel;
+    }
+
+    /**
+     * @param nivel the nivel to set
+     */
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
     }
     
     

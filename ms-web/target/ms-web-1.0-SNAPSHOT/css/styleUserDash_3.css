@@ -183,7 +183,7 @@ body {
 }
 
 .add-resource-btn2 {
-    background: linear-gradient(135deg, #0b3d2e 0%, #0d261f 100%);
+    background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%);
     color: white;
     padding: 8px 20px;
     border: none;
@@ -196,7 +196,7 @@ body {
 
 .add-resource-btn2:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, #145c43 0%, #0f3a2e 100%);
+    background: linear-gradient(135deg,  #0077b6 0%, #00b4d8 100%);
 }
 
 /* Content Cards */

@@ -3,6 +3,7 @@ modelo\Inscripcion.class
 dto\DtoUsuarioLogin.class
 modelo\Leccion.class
 modelo\RespuestaReporte.class
+dto\DtoModuloLista.class
 modelo\Libro.class
 control\ApiGateway.class
 com\apri\ms\web\JakartaRestConfiguration.class

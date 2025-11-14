@@ -1,5 +1,6 @@
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\com\apri\ms\mateducativo\JakartaRestConfiguration.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\com\apri\ms\mateducativo\resources\JakartaEE11Resource.java
+C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\dto\DtoArticuloRegistro.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\dto\DtoLibroRegistro.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\dto\DtoMatEducativo.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\modelo\Administrador.java
@@ -20,8 +21,12 @@ C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEduc
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\modelo\Usuario.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\persistencia\ApriException.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\persistencia\ConexionBD.java
+C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\persistencia\DaoArticulo.java
+C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\persistencia\DaoArticuloImpPostgres.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\persistencia\DaoLibro.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\persistencia\DaoLibroImp.java
+C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\presentacion\ArticuloControll.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\presentacion\LibroControll.java
+C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\servicio\ArticuloServicio.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\servicio\LibroServicio.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-MatEducativo\src\main\java\utilidad\Ruta.java

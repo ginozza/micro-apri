@@ -18,6 +18,7 @@ modelo\Administrador.class
 modelo\Reseña.class
 modelo\Persona.class
 utilidad\Ruta.class
+dto\DtoLeccionLista.class
 modelo\MaterialEducativo.class
 modelo\Usuario.class
 com\apri\ms\web\resources\JakartaEE11Resource.class

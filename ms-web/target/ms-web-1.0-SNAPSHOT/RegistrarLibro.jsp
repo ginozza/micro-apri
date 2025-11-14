@@ -81,6 +81,8 @@
                         <option value="Ciencias">Ciencias</option>
                         <option value="Programacion">Programación</option>
                         <option value="Informatica">Informática</option>
+                        <option value="Lingüística">Lingüística</option>
+                        <option value="Literatura">Literatura</option>
                         <option value="Electronica">Electrónica</option>
                         <option value="Ingenieria">Ingeniería</option>
                         <option value="Historia">Historia</option>

@@ -160,7 +160,6 @@
                 int cont=0;
                 for (DtoModuloLista modulo : listaModulo) {          
                 %>
-                <!-- Ejemplo de módulo (descomenta cuando tengas los datos reales) -->
                     <%
                         cont++;
                     %>
@@ -171,8 +170,8 @@
                                 <h3 class="module-title"style="padding: 20px"><%= modulo.titulo() %></h3>
                             </div>
                             <button class="add-lesson-btn" 
-                                    onclick="window.location.href='GestionarLecciones.jsp?idModulo=<%= modulo.id_modulo() %>&idCurso=<%= idCurso %>'">
-                                ➕ Agregar Lecciones
+                                    onclick="window.location.href='<%=Ruta.MS_MATEDU_URL%>/LeccionControll?accion=listarLecciones&idModulo=<%=modulo.id_modulo()%>&idCurso=<%=idCurso%>&tituloModulo=<%=modulo.titulo()%>'">
+                                 Agregar Lecciones
                             </button>
                         </div>
                     </div>
@@ -218,7 +217,7 @@
 
             <!-- Botón para Finalizar -->
             <button class="finish-btn" onclick="finalizarCurso()">
-                ✅ Finalizar y Publicar Curso
+                 Finalizar y Publicar Curso
             </button>
         </main>
     </div>

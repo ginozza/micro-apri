@@ -165,7 +165,6 @@
     %>
     
     <div class="container">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
                 <img src="img/Logo2.png" width="190" height="150" alt="Logo" />
@@ -173,7 +172,6 @@
             
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
             <header class="header">
                 <div class="welcome-text">
@@ -189,12 +187,10 @@
                 </div>
             </header>
 
-            <!-- Información del Módulo -->
             <div class="module-info-badge">
                 <h3>Módulo:  <%=tituloJson%></h3>
             </div>
 
-            <!-- Lecciones Existentes -->
             <div class="section-title">
                 🎥 Lecciones del Módulo
             </div>
@@ -237,7 +233,6 @@
 
             <div class="section-divider"></div>
 
-            <!-- Formulario para Agregar Nueva Lección -->
             <div class="section-title">Agregar Nueva Lección</div>
             
             <form action="<%=Ruta.MS_MATEDU_URL%>/LeccionControll?accion=register&idModulo=<%=idModulo%>&idCurso=<%=idCurso%>&tituloModulo=<%=tituloJson%>" 

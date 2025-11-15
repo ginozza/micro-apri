@@ -1,3 +1,6 @@
+<%@page import="utilidad.Ruta"%>
+<%@page import="dto.DtoUsuarioLogin"%>
+<%@page import="dto.DtoAdminLogin"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="modelo.Administrador"%>
@@ -14,14 +17,13 @@
 </head>
 <body>
     <%
-        // Validamos que el usuario llegó correctamente
         HttpSession sesion = request.getSession(false);
-        if(sesion == null || sesion.getAttribute("usuario") == null){
+        if(sesion == null || sesion.getAttribute("admin") == null){
             response.sendRedirect("InicioSesionUsuario.jsp");
             return;
         }
         
-        Administrador user_login = (Administrador) sesion.getAttribute("usuario");
+        DtoAdminLogin user_login = (DtoAdminLogin) sesion.getAttribute("admin");
     %>
     
     <div class="container">
@@ -30,10 +32,10 @@
                 <img src="img/logoAdmin.png" width="190" height="150" alt="Logo pagina" />
             </div>
             <nav>
-                <a href="UsuarioControll?accion=dashboardAdmin" class="menu-item">Dashboard</a>
-                <a href="UsuarioControll?accion=GestionUsuario" class="menu-item active">Gestionar Usuarios</a>               
+                <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardAdmin" class="menu-item">Dashboard</a>
+                <a href="DashboardAdmin_GU.jsp" class="menu-item active">Gestionar Usuarios</a>               
                 <a href="DashboardAdmin_GR.jsp" class="menu-item">Gestionar Reportes</a>
-                <a href="CerrarSesion" class="menu-item">Cerrar Sesión</a>
+                <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion?accion=admin" class="menu-item">Cerrar Sesión</a>
             </nav>
         </aside>
 
@@ -41,7 +43,7 @@
             <header class="header">
                 <div class="welcome-text">
                     <h1>Panel de Administración</h1>
-                    <p>Bienvenido, <%=user_login.getPrimer_nombre()%> - Gestiona tu plataforma</p>
+                    <p>Bienvenido, <%=user_login.primerNombre()%> - Gestiona tu plataforma</p>
                 </div>
             </header>
 
@@ -51,7 +53,7 @@
                 </div>
 
                 <%
-                    List<Usuario> listaUsuarios = (List) request.getAttribute("listU");
+                    List<DtoUsuarioLogin> listaUsuarios = (List) sesion.getAttribute("listaU");
                 %>
                 <div class="table-container">
                     <div class="table-header">
@@ -72,14 +74,13 @@
                         <tbody>
 
                             <%
-                            for (Usuario user : listaUsuarios) {%>
+                            for (DtoUsuarioLogin user : listaUsuarios) {%>
                             <tr>
                                 
-                                <td><%=user.getId_persona()%></td>
-                                <td><%=user.getPrimer_nombre()%></td>
-                                <td><%=user.getCorreo()%></td>
-                                <td><%=user.getFecha_registro()%></td>                                
-                                <%if(!user.isEstado()){%>
+                                <td><%=user.id_persona()%></td>
+                                <td><%=user.primerNombre()%></td>
+                                <td><%=user.correo()%></td>
+                                <%if(!user.estado()){%>
                                  <td><span class="status-badge status-inactive">Inactivo</span></td>
                                 <%}else{%>
                                  <td><span class="status-badge status-active">Activo</span></td>

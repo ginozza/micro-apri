@@ -5,6 +5,7 @@
 package presentacion;
 
 import com.google.gson.Gson;
+import dto.DtoAdminLogin;
 import dto.DtoMatEducativo;
 import dto.DtoUsuarioLogin;
 import integracion.MatEducativoClienteHttp;
@@ -17,7 +18,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.List;
-import modelo.Usuario;
 import servicio.UsuarioServicio;
 import utilidad.Ruta;
 
@@ -60,7 +60,6 @@ import utilidad.Ruta;
         switch (accion) {
             case "dashboardUser" -> dashboardUser(request,response);
             case "dashboardAdmin" -> dashboardAdmin(request,response);
-            case "GestionUsuario" -> gestionUsuario(request,response);
             default -> throw new AssertionError();
         }
     }
@@ -110,34 +109,35 @@ import utilidad.Ruta;
 
     private void dashboardAdmin(HttpServletRequest request, HttpServletResponse response) {
         
+        HttpSession miSesion = request.getSession(false);
+      
+        if(miSesion==null || miSesion.getAttribute("usuario")==null){
+            request.getRequestDispatcher(Ruta.MS_WEB+"/InicioSesionUsuario.jsp?dashUser=fallo");
+        }
+        
+        DtoAdminLogin dtoAdmin=(DtoAdminLogin) miSesion.getAttribute("usuario");
+        System.out.println("DTO desde el dashboard admin: "+dtoAdmin);
+
         try {
-            List<Usuario> listaU = listUServicio.listUser();
+            List<DtoUsuarioLogin> listaU = listUServicio.listUser();
             
             if(listaU !=null){
-                request.setAttribute("listU",listaU);
-                request.getRequestDispatcher("DashboardAdmin.jsp").forward(request, response);
+                System.out.println("NOT NULLL");
+                String jsonAdmin = gson.toJson(dtoAdmin);
+                String listaJson = gson.toJson(listaU);
+                
+                String url = Ruta.MS_WEB+"/DashboardAdmin.jsp"+"?admin="+URLEncoder.encode(jsonAdmin, "UTF-8")
+                    +"&lista=" + URLEncoder.encode(listaJson, "UTF-8");
+           
+                response.sendRedirect(url);
             }else{
-                response.getWriter().print("ERROR EN EL GESTION USUARIOS");
+                request.getRequestDispatcher(Ruta.MS_WEB+"/InicioSesionUsuario.jsp?dashUser=fallo");
             }
         } catch (Exception ex) {
             System.out.println("ERROR EN EL DoGett, Error: "+ex.getMessage());
         }
     }
 
-    private void gestionUsuario(HttpServletRequest request, HttpServletResponse response) {
-        
-        try {
-            List<Usuario> listaU = listUServicio.listUser();
-            
-            if(listaU !=null){
-                request.setAttribute("listU",listaU);
-                request.getRequestDispatcher("DashboardAdmin_GU.jsp").forward(request, response);
-            }else{
-                response.getWriter().print("ERROR EN EL GESTION USUARIOS");
-            }
-        } catch (Exception ex) {
-            System.out.println("ERROR EN EL DoGett, Error: "+ex.getMessage());
-        }
-    }
+
 
 }

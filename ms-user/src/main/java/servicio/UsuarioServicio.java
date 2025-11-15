@@ -4,6 +4,8 @@
  */
 package servicio;
 
+import dto.DtoUsuarioLogin;
+import java.util.ArrayList;
 import java.util.List;
 import modelo.Usuario;
 import persistencia.DaoUsuario;
@@ -21,12 +23,20 @@ public class UsuarioServicio {
         daoUser = new DaoUsuarioImpPostgres();
     }
     
-    public List<Usuario> listUser() throws Exception{
+    public List<DtoUsuarioLogin> listUser() throws Exception{
                     System.out.println("PASO LA sERVICIO");
 
+        List<DtoUsuarioLogin> listaDto = new ArrayList<>();
         if(daoUser.listar()!=null){
             
-            return daoUser.listar();
+            List<Usuario> listU= daoUser.listar();
+            if(listU!=null){
+                for (Usuario usuario : listU) {
+                    listaDto.add(new DtoUsuarioLogin(usuario.getId_persona(), usuario.getCorreo(), usuario.getPrimer_nombre(), 
+                                    usuario.getPrimer_apellido(), usuario.getTipo(),usuario.isEstado()));
+                }
+                return listaDto;
+            }
         }
         return null;
     }

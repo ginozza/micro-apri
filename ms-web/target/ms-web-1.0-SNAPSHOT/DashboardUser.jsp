@@ -72,7 +72,7 @@
                     <div class="menu-item">Material educativo disponible</div>
                     <div class="menu-item">Mi perfil</div>
                     <div class="menu-item">Opciones</div>
-                    <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion" class="menu-item ">Cerrar sesión</a>
+                    <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion?accion=user" class="menu-item ">Cerrar sesión</a>
   
                 </nav>
             </aside>

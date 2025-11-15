@@ -1,3 +1,9 @@
+<%@page import="dto.DtoUsuarioLogin"%>
+<%@page import="dto.DtoAdminLogin"%>
+<%@page import="utilidad.Ruta"%>
+<%@page import="com.google.gson.Gson"%>
+<%@page import="com.google.gson.reflect.TypeToken"%>
+<%@page import="java.lang.reflect.Type"%>
 <%@page import="java.util.List"%>
 <%@page import="modelo.Administrador"%>
 <%@page import="modelo.Usuario"%>
@@ -13,19 +19,28 @@
 </head>
 <body>
     <%
-        // Validamos que el usuario llegó correctamente
-        HttpSession sesion = request.getSession(false);
-        if(sesion == null || sesion.getAttribute("usuario") == null){
-            response.sendRedirect("InicioSesionUsuario.jsp");
-            return;
-        }
-        
-        Administrador user_login = (Administrador) sesion.getAttribute("usuario");
-        List<Usuario> listU = (List) request.getAttribute("listU");
+            String usuarioJson = request.getParameter("admin");
+            String listaJson = request.getParameter("lista");
+            
+            System.out.println("Admin "+usuarioJson);
+            System.out.println("ListajSON: "+listaJson);
+            
+            Gson gson = new Gson();
+            
+            DtoAdminLogin dtoUser = gson.fromJson(usuarioJson,DtoAdminLogin.class);
+            
+            Type tipoLista = new TypeToken<List<DtoUsuarioLogin>>(){}.getType();
+            
+            List<DtoUsuarioLogin> listaU = gson.fromJson(listaJson,tipoLista);
+            
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("admin", dtoUser);
+            sesion.setAttribute("listaU", listaU); 
+       
         int n=0;
         
-        for (Usuario usr : listU) {
-                if(usr.isEstado()){
+        for (DtoUsuarioLogin usr : listaU) {
+                if(usr.estado()){
                     n++;
                } 
         }
@@ -38,10 +53,10 @@
             </div>
             <nav>
   
-                <a href="UsuarioControll?accion=dashboardAdmin" class="menu-item active">Dashboard</a>
-                <a href="UsuarioControll?accion=GestionUsuario" class="menu-item">Gestionar Usuarios</a>                </form>
+                <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardAdmin" class="menu-item active">Dashboard</a>
+                <a href="DashboardAdmin_GU.jsp" class="menu-item">Gestionar Usuarios</a>                </form>
                 <a href="DashboardAdmin_GR.jsp" class="menu-item">Gestionar Reportes</a>
-                <a href="CerrarSesion"  class="menu-item">Cerrar Sesión</a>                    
+                <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion?accion=admin"  class="menu-item">Cerrar Sesión</a>                    
             </nav>
         </aside>
 
@@ -49,7 +64,7 @@
             <header class="header">
                 <div class="welcome-text">
                     <h1>Panel de Administración</h1>
-                    <p>Bienvenido, <%=user_login.getPrimer_nombre()%> - Gestiona tu plataforma</p>
+                    <p>Bienvenido, <%=dtoUser.primerNombre()%> - Gestiona tu plataforma</p>
                 </div>
             </header>
 
@@ -60,7 +75,7 @@
                         <div class="stat-icon blue">👥</div>
                         <div class="stat-info">
                             <h3>Total Usuarios</h3>
-                            <p><%=listU.size()%></p>
+                            <p><%=listaU.size()%></p>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -74,7 +89,7 @@
                         <div class="stat-icon red">✗</div>
                         <div class="stat-info">
                             <h3>Usuarios Inactivos</h3>
-                            <p><%=listU.size()-n%></p>
+                            <p><%=listaU.size()-n%></p>
                         </div>
                     </div>
                 </div>

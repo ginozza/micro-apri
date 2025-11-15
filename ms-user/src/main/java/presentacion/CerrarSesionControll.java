@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import modelo.Usuario;
 import servicio.LoginServicio;
 import utilidad.Ruta;
 
@@ -41,27 +40,37 @@ public class CerrarSesionControll extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession Misesion = request.getSession(false);
-
-        try {
-            if(Misesion != null && Misesion.getAttribute("usuario") != null){
-                DtoUsuarioLogin u = (DtoUsuarioLogin) Misesion.getAttribute("usuario");
-                System.out.println("-----------\nUsuario para cerrar sesion : "+u+"\n--------\n");
-                try {
-                    loginServicio.cerrarSesion(u);
-                } catch (Exception ex) {
-                    System.out.println("Error al actualizar estado en BD: " + ex.getMessage());
-                }
-
+        String accion = request.getParameter("accion");
+        switch (accion) {
+            case "admin" -> {
                 Misesion.invalidate();
+                response.sendRedirect(Ruta.MS_WEB+"/InicioSesionUsuario.jsp");
             }
-
-            response.sendRedirect(Ruta.MS_WEB+"/InicioSesionUsuario.jsp");
-
-        } catch (IllegalStateException ex) {
-            System.out.println("Sesión ya invalidada: " + ex.getMessage());
-            response.sendRedirect(Ruta.MS_WEB+"/InicioSesionUsuario.jsp");
-        } 
-}
+            case "user" -> {
+                try {
+                    if(Misesion != null){
+                        if(Misesion.getAttribute("usuario") != null){
+                            DtoUsuarioLogin u = (DtoUsuarioLogin) Misesion.getAttribute("usuario");
+                            System.out.println("-----------\nUsuario para cerrar sesion : "+u+"\n--------\n");
+                            
+                            try {
+                                loginServicio.cerrarSesion(u);
+                            } catch (Exception ex) {
+                                System.out.println("Error al actualizar estado en BD: " + ex.getMessage());
+                            }
+                            
+                        }
+                        Misesion.invalidate();
+                        response.sendRedirect(Ruta.MS_WEB+"/InicioSesionUsuario.jsp");
+                    }     
+                } catch (IllegalStateException ex) {
+                    System.out.println("Sesión ya invalidada: " + ex.getMessage());
+                    response.sendRedirect(Ruta.MS_WEB+"/InicioSesionUsuario.jsp");
+                }
+            }
+        }
+        
+        }
 
 
     @Override

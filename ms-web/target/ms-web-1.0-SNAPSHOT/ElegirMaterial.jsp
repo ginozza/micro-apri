@@ -35,7 +35,7 @@
                 <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardUser" class="menu-item active">
                      Dashboard
                 </a>
-                <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion" class="menu-item">
+                <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion?accion=user" class="menu-item">
                     Cerrar sesión
                 </a>
             </nav>

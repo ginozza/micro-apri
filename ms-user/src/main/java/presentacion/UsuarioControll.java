@@ -63,9 +63,15 @@ import utilidad.Ruta;
         switch (accion) {
             case "dashboardUser" -> dashboardUser(request,response);
             case "dashboardAdmin" -> dashboardAdmin(request,response);
+            case "gestionUsuario" -> gestionUsuarios(request,response);
             case "eliminarUsuario"->{
                 int id_user = Integer.parseInt(request.getParameter("id"));
                 eliminarUser(request,response,id_user);
+            }
+            case "buscarUsuario" ->{
+                String nombreUser = request.getParameter("nombreUser");
+                System.out.println("Nombre del usuario a buscar: "+nombreUser);
+                buscarUser(request,response,nombreUser);
             }
             default -> throw new AssertionError();
         }
@@ -144,33 +150,48 @@ import utilidad.Ruta;
             System.out.println("ERROR EN EL DoGett, Error: "+ex.getMessage());
         }
     }
+    private void gestionUsuarios(HttpServletRequest request, HttpServletResponse response){
+        HttpSession miSesion = request.getSession(false);
+      
+        if(miSesion==null || miSesion.getAttribute("usuario")==null){
+            request.getRequestDispatcher(Ruta.MS_WEB+"/InicioSesionUsuario.jsp?dashUser=fallo");
+        }     
+        DtoAdminLogin dtoAdmin=(DtoAdminLogin) miSesion.getAttribute("usuario");
+        System.out.println("DTO desde el gestion uruarios: "+dtoAdmin);
+        try {
+            List<DtoUsuarioLogin> listaU = userServicio.listUser();
+            
+            if(listaU !=null){
+                System.out.println("NOT NULLL");
+                String jsonAdmin = gson.toJson(dtoAdmin);
+                String listaJson = gson.toJson(listaU);
+                String url = Ruta.MS_WEB+"/DashboardAdmin_GU.jsp"+"?admin="+URLEncoder.encode(jsonAdmin, "UTF-8")
+                        +"&lista=" + URLEncoder.encode(listaJson, "UTF-8");                                    
+                response.sendRedirect(url);
+            }else{
+                request.getRequestDispatcher(Ruta.MS_WEB+"/InicioSesionUsuario.jsp?dashUser=fallo");
+            }
+        } catch (Exception ex) {
+            System.out.println("ERROR EN EL Do Get, Error: "+ex.getMessage());
+        }
+    }
 
     private void eliminarUser(HttpServletRequest request, HttpServletResponse response, int id_user) {
         System.out.println("Antes del eliminar usuario");
         System.out.println("Id del usuario: "+id_user);
         if(userServicio.eliminarUsuario(id_user)){
-            try {
-                System.out.println("Se elimino correctamente el usuario");
-                List<DtoUsuarioLogin> listaU = userServicio.listUser();
-                
-                if(listaU != null){
-                    System.out.println("Lista actualizada con " + listaU.size() + " usuarios");
-                    
-                    String listJson = gson.toJson(listaU);
-                     try {
-                    response.sendRedirect(Ruta.MS_WEB + "/DashboardAdmin_GU.jsp?success=eliminado&listaJson2="
-                            +URLEncoder.encode(listJson, "UTF-8"));
-                    } catch (IOException ex) {
-                        System.out.println("Error : "+ex.getMessage());
-                    }
-                }
-               
-            } catch (Exception ex) {
-                System.out.println("Error en la capa excepciones: "+ex.getMessage());
-            }
+            gestionUsuarios(request, response);
         }else{
-            
+            System.out.println("Usuario inexistente");
         }
+    }
+
+    private void buscarUser(HttpServletRequest request, HttpServletResponse response, String nombreUser) {
+        if (nombreUser == null || nombreUser.trim().isEmpty()) {
+            gestionUsuarios(request, response);
+            return;
+        }
+        
     }
 
 

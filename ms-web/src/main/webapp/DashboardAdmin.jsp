@@ -57,7 +57,7 @@
             <nav>
   
                 <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardAdmin" class="menu-item active">Dashboard</a>
-                <a href="DashboardAdmin_GU.jsp" class="menu-item">Gestionar Usuarios</a>                </form>
+                <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=gestionUsuario" class="menu-item">Gestionar Usuarios</a>
                 <a href="DashboardAdmin_GR.jsp" class="menu-item">Gestionar Reportes</a>
                 <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion?accion=admin"  class="menu-item">Cerrar Sesión</a>                    
             </nav>

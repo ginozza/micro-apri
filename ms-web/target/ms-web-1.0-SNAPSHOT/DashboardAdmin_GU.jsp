@@ -24,26 +24,27 @@
 </head>
 <body>
     <%
-        HttpSession sesion = request.getSession(false);
-        if(sesion == null || sesion.getAttribute("admin") == null){
-            response.sendRedirect("InicioSesionUsuario.jsp");
-            return;
-        }
+            String usuarioJson = request.getParameter("admin");
+            String listaJson = request.getParameter("lista");
+            
+            System.out.println("Admin "+usuarioJson);
+            System.out.println("ListajSON: "+listaJson);
+            
+            Gson gson = new Gson();
+            
+            DtoAdminLogin dtoUser = gson.fromJson(usuarioJson,DtoAdminLogin.class);
+            
+            Type tipoLista = new TypeToken<List<DtoUsuarioLogin>>(){}.getType();
+            
+            List<DtoUsuarioLogin> listaU = gson.fromJson(listaJson,tipoLista);
+            
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("admin", dtoUser);
+            sesion.setAttribute("listaU", listaU); 
+       
+            String success = request.getParameter("success");
         
-        List<DtoUsuarioLogin> listaUsuarios;
-        listaUsuarios = (List) sesion.getAttribute("listaU");
-
-        DtoAdminLogin user_login = (DtoAdminLogin) sesion.getAttribute("admin");
-        String success = request.getParameter("success");
         
-        if(success != null && success.equals("eliminado")){
-            String listaJson = request.getParameter("listaJson2");
-            if(listaJson != null && !listaJson.isEmpty()){
-                Gson gson = new Gson();
-                Type tipoLista = new TypeToken<List<DtoUsuarioLogin>>(){}.getType();    
-                listaUsuarios = gson.fromJson(listaJson, tipoLista);
-            }
-        }
     %>
 
     <div class="container">
@@ -63,7 +64,7 @@
                 <header class="header">
                     <div class="welcome-text">
                         <h1>Gestionar usuarios</h1>
-                        <p>Bienvenido, <%=user_login.primerNombre()%> - Gestiona tu plataforma</p>
+                        <p>Bienvenido, <%=dtoUser.primerNombre()%> - Gestiona tu plataforma</p>
                     </div>
                 </header>
                 <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardAdmin" class="btn-salir">
@@ -71,22 +72,24 @@
                 </a>
             </div>
 
-            <!-- Mensaje de éxito -->
             <% if(success != null && success.equals("eliminado")){ %>
                 <div class="alert alert-success">
                     <i class="fa-regular fa-circle-check"></i> Usuario eliminado exitosamente
                 </div>
             <% } %>
-
-            <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Buscar por nombre">
-                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </div>
+            <form action="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll" method="GET">
+                <input type="hidden" name="accion" value="buscarUsuario">
+                <div class="search-bar">
+                    <input type="text" name="nombreUser" class="search-input" placeholder="Buscar por nombre">
+                    <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>  
+            </form>     
+            
 
             <div class="table-container">
                 <div class="table-header">
                     <h2 class="table-title">Lista de Usuarios <i class="fa-solid fa-users"></i></h2>
-                    <span class="table-info">Mostrando <%=listaUsuarios.size()%> usuarios</span>
+                    <span class="table-info">Mostrando <%=listaU.size()%> usuarios</span>
                 </div>
                 <table>
                     <thead>
@@ -100,7 +103,7 @@
                     </thead>
                     <tbody>
                         <%
-                        for (DtoUsuarioLogin user : listaUsuarios) {%>
+                        for (DtoUsuarioLogin user : listaU) {%>
                         <tr>
                             <td><%=user.id_persona()%></td>
                             <td><%=user.primerNombre()%></td>

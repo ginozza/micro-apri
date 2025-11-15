@@ -9,10 +9,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <link rel="stylesheet" href="css/styleSesion_1.css"/>
+        <link rel="stylesheet" href="css/styleLogin2.css"/>
         <title>Inicio de sesión</title>
     </head>
     <body>
@@ -54,11 +53,13 @@
                 <a href="RegistrarUsuario.jsp">Registrar cuenta</a>
             </form>
         
-        <%if(request.getAttribute("mensajeF")!=null){%>
+        <%if(request.getParameter("mensajeF")!=null){
+            String mensaje = request.getParameter("mensajeF");
+        %>
         <script>
                 Swal.fire({
                     title: '¡Error!',
-                    text: '<%= request.getAttribute("mensajeF") %>',
+                    text: '<%= mensaje %>',
                     icon: 'error',
                     confirmButtonText: 'Aceptar'
                 });

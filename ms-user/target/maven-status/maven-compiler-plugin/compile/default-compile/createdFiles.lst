@@ -9,7 +9,6 @@ modelo\Leccion.class
 modelo\RespuestaReporte.class
 com\apri\ms\user\JakartaRestConfiguration.class
 modelo\Libro.class
-persistencia\DaoLibro.class
 persistencia\DaoUsuario.class
 servicio\RegistroServicio.class
 modelo\Curso.class
@@ -29,7 +28,6 @@ persistencia\ApriException.class
 modelo\Persona.class
 utilidad\Ruta.class
 modelo\MaterialEducativo.class
-servicio\LibroServicio.class
 presentacion\CerrarSesionControll.class
 presentacion\LoginControll.class
 modelo\Usuario.class
@@ -37,4 +35,3 @@ dto\DtoUsuarioRegistro.class
 modelo\Articulo.class
 modelo\Reporte.class
 persistencia\ConexionBD.class
-persistencia\DaoLibroImp.class

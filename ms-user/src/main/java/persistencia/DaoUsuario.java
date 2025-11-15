@@ -10,7 +10,7 @@ public interface DaoUsuario {
      
     public boolean registrar(Usuario usuario) throws Exception;
     public boolean actualizar(Usuario usuario) throws Exception;
-    public boolean eliminar(Usuario usuario) throws Exception;
+    public boolean eliminar(int id_usuario) throws Exception;
     public List<Usuario> listar() throws Exception; 
     public boolean validarCorreo(String correo) throws Exception;
     public Persona   correoExistente(String correo) throws Exception;

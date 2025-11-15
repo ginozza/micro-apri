@@ -4,7 +4,9 @@ package servicio;
 import dto.DtoLibroRegistro;
 import dto.DtoMatEducativo;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.List;
+import modelo.Libro;
 import persistencia.ApriException;
 import persistencia.DaoLibro;
 import persistencia.DaoLibroImp;
@@ -29,8 +31,9 @@ public class LibroServicio {
         if(librito != null && librito.id_usuario()>0 && librito.cantPaginas()>0 && inputStream != null){
             System.out.println("Paso los filtros del libro servicio");
                     try {
-                        //Libro libro = new Libro(librito.edicion(), librito.editorial(), librito.cantPaginas(),1, librito.categoria(), librito.nombre(),LocalDate.parse(librito.año_publicacion()),librito.tipo(),librito.descripcion(), true, null);
-                        return daoLib.registrar(librito,inputStream);
+                        Libro libro = new Libro(librito.edicion(), librito.editorial(), librito.cantPaginas(),1, librito.categoria(), librito.nombre(),LocalDate.parse(librito.año_publicacion()),librito.tipo(),librito.descripcion(), true);
+                        return daoLib.registrar(libro,inputStream,librito.id_usuario());
+                       
                     } catch (Exception ex) {
                         System.err.println("Error en DAO: " + ex.getMessage());
                         throw new ApriException("Fallo el uso del DAOLIBRO: " + ex.getMessage());

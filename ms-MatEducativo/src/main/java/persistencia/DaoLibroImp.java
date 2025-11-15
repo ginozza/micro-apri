@@ -19,24 +19,24 @@ import modelo.Usuario;
 public class DaoLibroImp implements DaoLibro{
 
    @Override
-    public boolean registrar(DtoLibroRegistro libro, InputStream inputStream) throws ApriException{
+    public boolean registrar(Libro libro, InputStream inputStream, int id_usuario) throws ApriException{
 
         String sql = "INSERT INTO libros( categoria, descripcion, nombre, anio_publicacion, estado, tipo, edicion, editorial, cantidad_paginas, id_usuario, archivopdf ) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
         try(Connection conn = ConexionBD.getInstancia().getConexion();
                 PreparedStatement stmt = conn.prepareCall(sql)){
-         System.out.println("Iniciando registro de libro: " + libro.nombre());
+         System.out.println("Iniciando registro de libro: " + libro.getNombre());
            
-            stmt.setString(1, libro.categoria());
-            stmt.setString(2, libro.descripcion());
-            stmt.setString(3,libro.nombre());
-            stmt.setDate(4, Date.valueOf(libro.año_publicacion()));
+            stmt.setString(1, libro.getCategoria());
+            stmt.setString(2, libro.getDescripcion());
+            stmt.setString(3,libro.getNombre());
+            stmt.setDate(4, Date.valueOf(libro.getAño_publicacion()));
             stmt.setBoolean(5,true);
-            stmt.setString(6, libro.tipo());
-            stmt.setInt(7,libro.edicion());
-        stmt.setString(8,libro.editorial());
-            stmt.setInt(9,libro.cantPaginas());
-            stmt.setInt(10,libro.id_usuario());
+            stmt.setString(6, libro.getTipo());
+            stmt.setInt(7,libro.getEdicion());
+        stmt.setString(8,libro.getEditorial());
+            stmt.setInt(9,libro.getCantidad_paginas());
+            stmt.setInt(10,id_usuario);
             stmt.setBinaryStream(11, inputStream);
             
             if(stmt.executeUpdate()>0){

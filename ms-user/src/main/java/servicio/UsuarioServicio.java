@@ -7,6 +7,7 @@ package servicio;
 import dto.DtoUsuarioLogin;
 import java.util.ArrayList;
 import java.util.List;
+
 import modelo.Usuario;
 import persistencia.DaoUsuario;
 import persistencia.DaoUsuarioImpPostgres;
@@ -39,6 +40,19 @@ public class UsuarioServicio {
             }
         }
         return null;
+    }
+
+    public boolean eliminarUsuario(int id_user) {
+        if(id_user>0){
+            try {
+                   System.out.println("Paso capa servicio de eliminacion");
+                return daoUser.eliminar(id_user);
+            } catch (Exception ex) {
+                System.out.println("Error en la capa servicio: "+ex.getMessage());
+            }
+        
+        }
+        return false;
     }
     
     

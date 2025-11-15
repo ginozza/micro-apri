@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import servicio.UsuarioServicio;
 import utilidad.Ruta;
 
@@ -28,13 +30,13 @@ import utilidad.Ruta;
 @WebServlet(name = "UsuarioControll", urlPatterns = {"/UsuarioControll"})
     public class UsuarioControll extends HttpServlet {
 
-     UsuarioServicio listUServicio;
+     UsuarioServicio userServicio;
      MatEducativoClienteHttp matEduCliente;
      Gson gson;
      
      @Override
     public void init(){
-        listUServicio=new UsuarioServicio();
+        userServicio=new UsuarioServicio();
         matEduCliente = new MatEducativoClienteHttp();
         gson = new Gson();
     }
@@ -50,6 +52,7 @@ import utilidad.Ruta;
         processRequest(request, response);
         
         String accion = request.getParameter("accion");
+        
         System.out.println("GUARDAMOS LA ACCION: "+accion);
         
         if(accion==null){
@@ -60,6 +63,10 @@ import utilidad.Ruta;
         switch (accion) {
             case "dashboardUser" -> dashboardUser(request,response);
             case "dashboardAdmin" -> dashboardAdmin(request,response);
+            case "eliminarUsuario"->{
+                int id_user = Integer.parseInt(request.getParameter("id"));
+                eliminarUser(request,response,id_user);
+            }
             default -> throw new AssertionError();
         }
     }
@@ -119,15 +126,15 @@ import utilidad.Ruta;
         System.out.println("DTO desde el dashboard admin: "+dtoAdmin);
 
         try {
-            List<DtoUsuarioLogin> listaU = listUServicio.listUser();
+            List<DtoUsuarioLogin> listaU = userServicio.listUser();
             
             if(listaU !=null){
                 System.out.println("NOT NULLL");
                 String jsonAdmin = gson.toJson(dtoAdmin);
                 String listaJson = gson.toJson(listaU);
-                
                 String url = Ruta.MS_WEB+"/DashboardAdmin.jsp"+"?admin="+URLEncoder.encode(jsonAdmin, "UTF-8")
-                    +"&lista=" + URLEncoder.encode(listaJson, "UTF-8");
+                        +"&lista=" + URLEncoder.encode(listaJson, "UTF-8");              
+                
            
                 response.sendRedirect(url);
             }else{
@@ -135,6 +142,34 @@ import utilidad.Ruta;
             }
         } catch (Exception ex) {
             System.out.println("ERROR EN EL DoGett, Error: "+ex.getMessage());
+        }
+    }
+
+    private void eliminarUser(HttpServletRequest request, HttpServletResponse response, int id_user) {
+        System.out.println("Antes del eliminar usuario");
+        System.out.println("Id del usuario: "+id_user);
+        if(userServicio.eliminarUsuario(id_user)){
+            try {
+                System.out.println("Se elimino correctamente el usuario");
+                List<DtoUsuarioLogin> listaU = userServicio.listUser();
+                
+                if(listaU != null){
+                    System.out.println("Lista actualizada con " + listaU.size() + " usuarios");
+                    
+                    String listJson = gson.toJson(listaU);
+                     try {
+                    response.sendRedirect(Ruta.MS_WEB + "/DashboardAdmin_GU.jsp?success=eliminado&listaJson2="
+                            +URLEncoder.encode(listJson, "UTF-8"));
+                    } catch (IOException ex) {
+                        System.out.println("Error : "+ex.getMessage());
+                    }
+                }
+               
+            } catch (Exception ex) {
+                System.out.println("Error en la capa excepciones: "+ex.getMessage());
+            }
+        }else{
+            
         }
     }
 

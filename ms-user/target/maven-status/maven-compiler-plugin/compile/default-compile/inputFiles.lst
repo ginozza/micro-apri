@@ -24,15 +24,12 @@ C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\sr
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\modelo\Usuario.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\persistencia\ApriException.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\persistencia\ConexionBD.java
-C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\persistencia\DaoLibro.java
-C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\persistencia\DaoLibroImp.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\persistencia\DaoUsuario.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\persistencia\DaoUsuarioImpPostgres.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\presentacion\CerrarSesionControll.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\presentacion\LoginControll.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\presentacion\RegistroControll.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\presentacion\UsuarioControll.java
-C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\servicio\LibroServicio.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\servicio\LoginServicio.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\servicio\RegistroServicio.java
 C:\Users\ACER-A315-59\OneDrive\Documentos\NetBeansProjects\micro-apri\ms-user\src\main\java\servicio\UsuarioServicio.java

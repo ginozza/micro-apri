@@ -1,16 +1,11 @@
 
 package servicio;
 
-import dto.DtoCursoRegistro;
 import dto.DtoLeccionLista;
-import dto.DtoModuloLista;
-import dto.DtoModuloRegistrar;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modelo.Leccion;
-import modelo.Modulo;
 import persistencia.ApriException;
 import persistencia.DaoLeccion;
 import persistencia.DaoLeccionImpPostgres;
@@ -35,7 +30,8 @@ public class LeccionServicio {
         if(leccionDto != null ){
             System.out.println("Paso los filtros del modulo servicio");
                     try {
-                        return daoLeccion.registrar(leccionDto);
+                        Leccion lec = new Leccion(1,leccionDto.nombre(), leccionDto.url_video(), leccionDto.descripcion());
+                        return daoLeccion.registrar(lec, leccionDto.id_modulo());
                     } catch (Exception ex) {
                         System.err.println("Error en DAO: " + ex.getMessage());
                         throw new ApriException("Fallo el uso del DAOLECCION: " + ex.getMessage());

@@ -14,18 +14,18 @@ import modelo.Leccion;
 public class DaoLeccionImpPostgres implements DaoLeccion{
 
     @Override
-    public boolean registrar(DtoLeccionLista leccionDto) throws Exception {
+    public boolean registrar(Leccion leccion, int id_modulo) throws Exception {
         String sql = "INSERT INTO lecciones (nombre,url_video,descripcion,id_modulo) VALUES (?,?,?,?)";
 
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            System.out.println("Iniciando registro de la leccion: " + leccionDto.nombre());
+            System.out.println("Iniciando registro de la leccion: " + leccion.getTitulo());
 
-            stmt.setString(1,leccionDto.nombre());
-            stmt.setString(2, leccionDto.url_video());
-            stmt.setString(3, leccionDto.descripcion());
-            stmt.setInt(4,leccionDto.id_modulo());
+            stmt.setString(1,leccion.getTitulo());
+            stmt.setString(2, leccion.getUrl_video());
+            stmt.setString(3, leccion.getDescripcion());
+            stmt.setInt(4,id_modulo);
             int filasAfectadas = stmt.executeUpdate();
 
             if (filasAfectadas > 0) {

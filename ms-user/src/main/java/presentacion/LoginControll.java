@@ -71,8 +71,8 @@ public class LoginControll extends HttpServlet {
                 }
                 
             }else{
-                response.sendRedirect(Ruta.MS_WEB+"/InicioSesionUsuario.jsp?mensajeF=" + 
-                    java.net.URLEncoder.encode("Correo o contraseña incorrecta", "UTF-8"));
+                response.sendRedirect(Ruta.MS_WEB+"/InicioSesionUsuario.jsp?mensajeF=Correo/contrasena Incorrecto");
+                    
             }
         } catch (Exception ex) {
             Logger.getLogger(LoginControll.class.getName()).log(Level.SEVERE, null, ex);

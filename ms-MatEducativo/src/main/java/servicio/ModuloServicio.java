@@ -1,13 +1,11 @@
 
 package servicio;
 
-import dto.DtoCursoRegistro;
 import dto.DtoModuloLista;
 import dto.DtoModuloRegistrar;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import modelo.Modulo;
 import persistencia.ApriException;
 import persistencia.DaoModulo;
@@ -33,7 +31,8 @@ public class ModuloServicio {
         if(moduloDto != null ){
             System.out.println("Paso los filtros del modulo servicio");
                     try {
-                        return daoModulo.registrar(moduloDto);
+                        Modulo mod = new Modulo(1,moduloDto.titulo());
+                        return daoModulo.registrar(mod, moduloDto.id_curso());
                     } catch (Exception ex) {
                         System.err.println("Error en DAO: " + ex.getMessage());
                         throw new ApriException("Fallo el uso del DAOMODULO: " + ex.getMessage());

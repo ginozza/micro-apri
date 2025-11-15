@@ -59,8 +59,25 @@ public boolean registrar(Usuario usuario) throws Exception {
     }
 
     @Override
-    public boolean eliminar(Usuario usuario) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminar(int id_usuario) {
+        String sql = "DELETE FROM usuarios WHERE id_persona = ?";
+
+        try(Connection conn = ConexionBD.getInstancia().getConexion(); 
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            System.out.println("ANTES DE ELIMINAR - ID del usuario: " + id_usuario);
+
+            stmt.setInt(1, id_usuario);
+
+            int filasAfectadas = stmt.executeUpdate();
+            System.out.println("DELETE ejecutado, filas afectadas: " + filasAfectadas);
+
+            return filasAfectadas > 0;
+
+        } catch(SQLException e) {
+            System.err.println("Error al eliminar usuario: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override

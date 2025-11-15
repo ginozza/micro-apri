@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registro de Usuario</title>
-        <link rel="stylesheet" href="css/styleSesion_1.css">
+        <link rel="stylesheet" href="css/styleSesion_2.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         
 

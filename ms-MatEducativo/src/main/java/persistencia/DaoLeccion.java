@@ -9,7 +9,7 @@ import modelo.*;
 
 public interface DaoLeccion {
      
-    public boolean registrar(DtoLeccionLista leccionDto) throws Exception;
+    public boolean registrar(Leccion leccionDto, int id_modulo) throws Exception;
     public boolean actualizar(Leccion leccion) throws Exception;
     public boolean eliminar(Leccion leccion) throws Exception;
     public List<Leccion> listar() throws Exception; 

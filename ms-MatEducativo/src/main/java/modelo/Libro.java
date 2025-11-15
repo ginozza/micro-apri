@@ -17,6 +17,14 @@ public class Libro extends MaterialEducativo {
         this.editorial = editorial;
         this.cantidad_paginas = cantidad_paginas;
     }
+    public Libro(int edicion, String editorial, int cantidad_paginas, int id_materialEducativo, 
+            String categoria, String nombre, LocalDate año_publicacion, String tipo, String descripcion,
+            boolean estado) {
+        super(id_materialEducativo, categoria, nombre, año_publicacion, tipo, descripcion, estado, null);
+        this.edicion = edicion;
+        this.editorial = editorial;
+        this.cantidad_paginas = cantidad_paginas;
+    }
 
     @Override
     public String toString() {

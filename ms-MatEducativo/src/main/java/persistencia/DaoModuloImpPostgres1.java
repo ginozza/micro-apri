@@ -14,16 +14,16 @@ import modelo.Modulo;
 public class DaoModuloImpPostgres1 implements DaoModulo{
 
     @Override
-    public boolean registrar(DtoModuloRegistrar moduloDto) throws Exception {
+    public boolean registrar(Modulo modulo, int id_curso) throws Exception {
         String sql = "INSERT INTO modulos (titulo,id_curso) VALUES (?,?)";
 
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            System.out.println("Iniciando registro del modulo: " + moduloDto.titulo());
+            System.out.println("Iniciando registro del modulo: " + modulo.getTitulo());
 
-            stmt.setString(1,moduloDto.titulo());
-            stmt.setInt(2, moduloDto.id_curso());
+            stmt.setString(1,modulo.getTitulo());
+            stmt.setInt(2, id_curso);
             
             int filasAfectadas = stmt.executeUpdate();
 

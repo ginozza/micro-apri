@@ -17,4 +17,6 @@ public interface DaoLibro {
     public boolean cambiarEstadoF(int id) throws Exception;
     public boolean cambiarEstadoT(int id) throws Exception;
     public List<DtoMatEducativo> buscarListUser(int id) throws Exception;
+
+    public List<MaterialEducativo> listarM();
 }

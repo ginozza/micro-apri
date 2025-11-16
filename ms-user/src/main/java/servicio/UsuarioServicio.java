@@ -34,7 +34,7 @@ public class UsuarioServicio {
             if(listU!=null){
                 for (Usuario usuario : listU) {
                     listaDto.add(new DtoUsuarioLogin(usuario.getId_persona(), usuario.getCorreo(), usuario.getPrimer_nombre(), 
-                                    usuario.getPrimer_apellido(), usuario.getTipo(),usuario.isEstado()));
+                                    usuario.getPrimer_apellido(), usuario.getTipo(),usuario.isEstado(),usuario.getInstitucion(),String.valueOf(usuario.getFecha_nacimiento())));
                 }
                 return listaDto;
             }
@@ -53,6 +53,10 @@ public class UsuarioServicio {
         
         }
         return false;
+    }
+
+    public List<DtoUsuarioLogin> buscarUsuarioPorNombre(String nombreUser) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

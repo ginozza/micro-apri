@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.List;
 import servicio.LibroServicio;
 import utilidad.Ruta;
@@ -47,12 +48,14 @@ public class LibroControll extends HttpServlet {
         
         String accion = request.getParameter("accion");
         
-        // Si la acción es buscarMaterialPorUsuario, devolver JSON
-        if ("buscarMaterialPorUsuario".equals(accion)) {
-            buscarMaterialPorUsuarioJSON(request, response);
-        } else {
-            // Otras acciones GET si las necesitas
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
+        switch (accion) {
+            case "buscarMaterialPorUsuario" -> buscarMaterialPorUsuarioJSON(request, response);
+            case "matEducativos" -> {
+                String usuarioJson = request.getParameter("user");
+                System.out.println("Usuario: "+usuarioJson);
+                listarMateriales(request,response,usuarioJson);
+            }
+            default -> response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
         }
     }
     
@@ -78,7 +81,7 @@ public class LibroControll extends HttpServlet {
             int idPersona = Integer.parseInt(idPersonaStr);
             
             List<DtoMatEducativo> listaMateriales = subirMatServicio.buscarMaterialPorUsuario(idPersona);
-            System.out.println("Lista de materiales: "+listaMateriales);
+            System.out.println("Lista de materialitos: "+listaMateriales);
             if (listaMateriales != null) {
                 // Convertir a JSON y enviar
                 String jsonResponse = gson.toJson(listaMateriales);
@@ -137,6 +140,55 @@ public class LibroControll extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Controlador de Libros con soporte JSON";
+    }
+   private void listarMateriales(HttpServletRequest request, HttpServletResponse response, String usuarioJson) {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            List<DtoMatEducativo> listaMateriales = subirMatServicio.listarMateriales();
+
+            System.out.println("Lista de materiales obtenida: " + (listaMateriales != null ? listaMateriales.size() : "null"));
+
+            if (listaMateriales == null || listaMateriales.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_OK); // Cambiar a OK y enviar array vacío
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("[]"); // Array vacío en JSON
+                    out.flush();
+                }
+                return;
+            }
+
+            String listaJson = gson.toJson(listaMateriales);
+            System.out.println("JSON generado: " +listaJson);
+            
+            String url = Ruta.MS_WEB+"/ExplorarMateriales?usuario="+
+                    URLEncoder.encode(usuarioJson, "UTF-8")
+                    +"&lista="+URLEncoder.encode(listaJson,"UTF-8");
+
+            response.sendRedirect(url);
+
+            System.out.println("Materiales enviados exitosamente");
+
+        } catch (IOException ex) {
+            System.err.println("Error de IO en listarMateriales: " + ex.getMessage());
+            ex.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            try {
+                enviarError(response, "Error al procesar la solicitud: " + ex.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            System.err.println("Error general en listarMateriales: " + ex.getMessage());
+            ex.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            try {
+                enviarError(response, "Error interno del servidor");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void registrarLibro(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException 

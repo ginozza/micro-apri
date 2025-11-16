@@ -1,3 +1,5 @@
+<%@page import="utilidad.Ruta"%>
+<%@page import="dto.DtoAdminLogin"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="modelo.Administrador"%>
@@ -10,18 +12,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración-Gestion usuarios</title>
     <link rel="stylesheet" href="css/styleDashboardAdmin.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
+      integrity="sha512-SnH5WK+bZxgIk9lKMdQXWf5fL8pT..." 
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 <body>
     <%
         // Validamos que el usuario llegó correctamente
         HttpSession sesion = request.getSession(false);
-        if(sesion == null || sesion.getAttribute("usuario") == null){
+        if(sesion == null || sesion.getAttribute("admin") == null){
             response.sendRedirect("InicioSesionUsuario.jsp");
             return;
         }
         
-        Administrador user_login = (Administrador) sesion.getAttribute("usuario");
+        DtoAdminLogin user_login = (DtoAdminLogin) sesion.getAttribute("admin");
     %>
     
     <div class="container">
@@ -30,14 +35,15 @@
                 <img src="img/logoAdmin.png" width="190" height="150" alt="Logo pagina" />
             </div>
             <nav>
-                <a href="UsuarioControll?accion=dashboardAdmin" class="menu-item">Dashboard</a>
-                <a href="UsuarioControll?accion=GestionUsuario" class="menu-item">Gestionar Usuarios</a>
-                <a href="DashboardAdmin_GR.jsp" class="menu-item active">Gestionar Reportes</a>
-                <a href="CerrarSesion" class="menu-item">Cerrar Sesión</a>
+                <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardAdmin" class="menu-item">Dashboard</a>
+                <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion?accion=admin" class="menu-item">Cerrar Sesión</a>
             </nav>
         </aside>
 
         <main class="main-content">
+            <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardAdmin" class="btn-salir" style="border: 20px">
+                    <i class="fa-solid fa-left-long"></i> Regresar
+           </a>
             <div id="reportes-section" class="content-section">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -64,9 +70,23 @@
                 </div>
 
                 <div class="search-bar">
-                    <input type="text" class="search-input" placeholder="Buscar reportes por usuario, tipo o descripción...">
-                    <button class="search-btn">🔍 Buscar</button>
+                    <input type="text" id="buscar" class="search-input" placeholder="Buscar reportes por usuario o tipo">
                 </div>
+                <script>
+                    document.getElementById("buscar").addEventListener("keyup", function() {
+                        let filtro = this.value.toLowerCase();
+                        let filas = document.querySelectorAll("tbody tr");
+
+                        filas.forEach(fila => {
+                            let nombre = fila.children[1].textContent.toLowerCase();
+                            let correo = fila.children[2].textContent.toLowerCase();
+
+                            let coincide = nombre.includes(filtro) || correo.includes(filtro);
+
+                            fila.style.display = coincide ? "" : "none";
+                        });
+                    });
+                </script>
 
                 <div class="table-container">
                     <div class="table-header">

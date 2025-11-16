@@ -1,8 +1,12 @@
 
 package dto;
 
-import java.time.LocalDate;
 
-public record DtoMatEducativo(int id,String nombre, String categoria, String año_publicacion ,String descripcion, String tipo) {
-
-}
+public record DtoMatEducativo(
+    int id_materialEducativo,
+    String nombre,
+    String categoria,
+    String año_publicacion,
+    String descripcion,
+    String tipo
+) {}

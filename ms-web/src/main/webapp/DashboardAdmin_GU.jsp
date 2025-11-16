@@ -77,14 +77,27 @@
                     <i class="fa-regular fa-circle-check"></i> Usuario eliminado exitosamente
                 </div>
             <% } %>
-            <form action="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll" method="GET">
                 <input type="hidden" name="accion" value="buscarUsuario">
                 <div class="search-bar">
-                    <input type="text" name="nombreUser" class="search-input" placeholder="Buscar por nombre">
-                    <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <input type="text" id="buscar" placeholder="Buscar por nombre o correo" class="search-input">
                 </div>  
-            </form>     
-            
+                <script>
+                    document.getElementById("buscar").addEventListener("keyup", function() {
+                        let filtro = this.value.toLowerCase();
+                        let filas = document.querySelectorAll("tbody tr");
+
+                        filas.forEach(fila => {
+                            let nombre = fila.children[1].textContent.toLowerCase();
+                            let correo = fila.children[2].textContent.toLowerCase();
+
+                            let coincide = nombre.includes(filtro) || correo.includes(filtro);
+
+                            fila.style.display = coincide ? "" : "none";
+                        });
+                    });
+                </script>
+
+
 
             <div class="table-container">
                 <div class="table-header">

@@ -58,7 +58,7 @@ public class LoginServicio {
     }
 
     private DtoPersonaLogin convertirUserDto(Persona u) {
-        return new DtoUsuarioLogin(u.getId_persona(),u.getCorreo(),u.getPrimer_nombre(),u.getPrimer_apellido(),u.getTipo(),u.isEstado());
+        return new DtoUsuarioLogin(u.getId_persona(),u.getCorreo(),u.getPrimer_nombre(),u.getPrimer_apellido(),u.getTipo(),u.isEstado(),u.getInstitucion(),String.valueOf(u.getFecha_nacimiento()));
 
     }
 

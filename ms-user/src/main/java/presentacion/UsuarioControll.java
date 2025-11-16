@@ -187,10 +187,17 @@ import utilidad.Ruta;
     }
 
     private void buscarUser(HttpServletRequest request, HttpServletResponse response, String nombreUser) {
+        
+        HttpSession miSesion = request.getSession(false);
+        DtoAdminLogin dtoAdmin = (DtoAdminLogin) miSesion.getAttribute("admin");
+        System.out.println("Administrador: "+dtoAdmin);
+        
         if (nombreUser == null || nombreUser.trim().isEmpty()) {
             gestionUsuarios(request, response);
             return;
         }
+        
+       
         
     }
 

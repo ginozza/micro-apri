@@ -16,7 +16,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Dashboard Usuarios</title>
-        <link rel="stylesheet" href="css/styleUserDash1.css">
+        <link rel="stylesheet" href="css/styleUserDash.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,10 +46,6 @@
             sesion.setAttribute("usuario", dtoUser);
             sesion.setAttribute("listaMat", listaMat); 
             
-           
-          
-            
-            
             int cantLibros=0,cantArticulos=0,cantCursos=0;
             
             for (DtoMatEducativo mat : listaMat){
@@ -72,9 +68,9 @@
                 </div>
                 <nav>
                     <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardUser"  class="menu-item active">Dashboard</a>
-                    <div class="menu-item ">Mi aprendizaje</div>
-                    <div class="menu-item">Material educativo disponible</div>
-                    <div class="menu-item">Mi perfil</div>
+                    <div class="menu-item">Mi aprendizaje</div>
+                    <a href="<%=Ruta.MS_MATEDU_URL%>/LibroControll?accion=matEducativos&user=<%=usuarioJson%>"  class="menu-item ">Material educativo disponible</a>
+                    <a href="MiPerfil.jsp"  class="menu-item ">Mi perfil</a>
                     <a href="<%=Ruta.MS_USUARIO_URL%>/CerrarSesion?accion=user" class="menu-item ">Cerrar sesión</a>
   
                 </nav>
@@ -101,7 +97,6 @@
                         <div class="stat-info">
                             <h3>Tus libros</h3>
                             <p><%=cantLibros%></p>
-                            <button class="add-resource-btn2">Ver</button>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -109,7 +104,6 @@
                         <div class="stat-info">
                             <h3>Tus artículos</h3>
                             <p><%=cantArticulos%></p>
-                            <button class="add-resource-btn2">Ver</button>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -117,11 +111,99 @@
                         <div class="stat-info">
                             <h3>Tus cursos</h3>
                             <p><%=cantCursos%></p>
-                            <button class="add-resource-btn2">Ver</button>
                         </div>
                     </div>
 
                 </div>
+
+                <!-- Barra de búsqueda -->
+                <div class="search-bar">
+                    <input type="text" id="buscar" placeholder="Buscar por título o tipo" class="search-input">
+                </div>
+
+                <!-- Tabla de materiales educativos -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="table-title">Mis Materiales Educativos <i class="fa-solid fa-book"></i></h2>
+                        <span class="table-info">Mostrando <%=listaMat.size()%> materiales</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                            for (DtoMatEducativo mat : listaMat) {
+                                String tipoIcon = "";
+                                String tipoBadge = "";
+                                
+                                if(mat.tipo().equals("libro")){
+                                    tipoIcon = "fa-book-bookmark";
+                                    tipoBadge = "badge-libro";
+                                } else if(mat.tipo().equals("articulo")){
+                                    tipoIcon = "fa-newspaper";
+                                    tipoBadge = "badge-articulo";
+                                } else {
+                                    tipoIcon = "fa-graduation-cap";
+                                    tipoBadge = "badge-curso";
+                                }
+                            %>
+                            <tr>
+                                <td><%=mat.id_materialEducativo()%></td>
+                                <td><%=mat.nombre()%></td>
+                                <td>
+                                    <span class="type-badge <%=tipoBadge%>">
+                                        <i class="fa-solid <%=tipoIcon%>"></i> 
+                                        <%=mat.tipo().substring(0,1).toUpperCase() + mat.tipo().substring(1)%>
+                                    </span>
+                                </td>
+                                <td class="descripcion-cell"><%=mat.descripcion()%></td>
+                                <td>
+                                    <%if(mat.tipo().equals("curso")){%>
+                                    <a href="#" 
+                                       class="action-btn delete-btn" 
+                                       onclick="return confirm('¿Estás seguro de eliminar este material?')">
+                                        <i class="fa-solid fa-trash"></i> Eliminar
+                                    </a>
+                                    <%}else{%>
+                                    <a href="#" class="action-btn view-btn">
+                                        <i class="fa-solid fa-eye"></i> Descargar
+                                    </a>
+                                    <a href="#" 
+                                       class="action-btn delete-btn" 
+                                       onclick="return confirm('¿Estás seguro de eliminar este material?')">
+                                        <i class="fa-solid fa-trash"></i> Eliminar
+                                    </a>
+                                    <%}%>
+                                </td>
+                            </tr>
+                            <%}%>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Script de búsqueda -->
+                <script>
+                    document.getElementById("buscar").addEventListener("keyup", function() {
+                        let filtro = this.value.toLowerCase();
+                        let filas = document.querySelectorAll("tbody tr");
+
+                        filas.forEach(fila => {
+                            let titulo = fila.children[1].textContent.toLowerCase();
+                            let tipo = fila.children[2].textContent.toLowerCase();
+
+                            let coincide = titulo.includes(filtro) || tipo.includes(filtro);
+
+                            fila.style.display = coincide ? "" : "none";
+                        });
+                    });
+                </script>
 
             </main>
         </div>

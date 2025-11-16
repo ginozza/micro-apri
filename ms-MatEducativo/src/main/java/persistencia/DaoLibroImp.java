@@ -1,7 +1,6 @@
 
 package persistencia;
 
-import dto.DtoLibroRegistro;
 import dto.DtoMatEducativo;
 import edu.apri.collections.CircularList;
 import java.io.InputStream;
@@ -11,9 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import modelo.Libro;
-import modelo.Usuario;
+import modelo.MaterialEducativo;
 
 
 public class DaoLibroImp implements DaoLibro{
@@ -48,7 +48,8 @@ public class DaoLibroImp implements DaoLibro{
         
         return false;
     }
-    
+         
+
     @Override
     public List<DtoMatEducativo> buscarListUser(int user) throws Exception {
         
@@ -110,6 +111,42 @@ public class DaoLibroImp implements DaoLibro{
     @Override
     public boolean cambiarEstadoT(int id) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<MaterialEducativo> listarM() {
+        List<MaterialEducativo> listaM = new ArrayList<>();
+        int cont=1;
+        String sql = "SELECT * FROM materiales_educativos";
+        
+        try(Connection conn =  ConexionBD.getInstancia().getConexion();
+                PreparedStatement stmt = conn.prepareStatement(sql)){
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                System.out.println("cont: "+(cont++));
+               int idMaterialEducativo = rs.getInt("id_material_educativo");
+               String categoria = rs.getString("categoria");
+               String descripcion = rs.getString("descripcion");
+               String nombre = rs.getString("nombre");
+               LocalDate anioPublicacion = rs.getDate("anio_publicacion").toLocalDate();
+               boolean estado = rs.getBoolean("estado");
+               String tipo = rs.getString("tipo");               
+               listaM.add(new MaterialEducativo(idMaterialEducativo,
+                       categoria, nombre, anioPublicacion, tipo, descripcion, estado,null));
+               
+                
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error SQL al consultar materiales educativos: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.err.println("Error: algún valor obtenido del ResultSet es nulo. " + e.getMessage());
+        }catch (Exception e) {
+            System.err.println("Error inesperado: " + e.getMessage());
+        }
+        return listaM;
     }
 
 

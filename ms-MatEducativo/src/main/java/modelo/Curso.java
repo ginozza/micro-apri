@@ -17,8 +17,8 @@ public class Curso extends MaterialEducativo {
         this.duracion = duracion;
     }
 
-    public Curso(int id_curso, int duracion, int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion,  String descripcion, boolean estado, Usuario usuario, String nivel) {
-        super(id_materialEducativo, categoria, nombre, año_publicacion, "Curso", descripcion, estado, usuario);
+    public Curso(int id_curso, int duracion, int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion,  String descripcion, boolean estado, String nivel) {
+        super(id_materialEducativo, categoria, nombre, año_publicacion, "Curso", descripcion, estado);
         this.id_curso = id_curso;
         this.duracion = duracion;
         this.nivel=nivel;

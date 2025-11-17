@@ -15,13 +15,12 @@ public class MaterialEducativo {
     private String tipo;
     private String descripcion;
     private boolean estado;
-    private Usuario usuario;
-    private List<Reseña> lista_reseñas;
+    private int  id_usuario;
     
     public MaterialEducativo() {
     }
 
-    public MaterialEducativo(int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion, String tipo, String descripcion, boolean estado, Usuario usuario) {
+    public MaterialEducativo(int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion, String tipo, String descripcion, boolean estado) {
         this.id_materialEducativo = id_materialEducativo;
         this.categoria = categoria;
         this.nombre = nombre;
@@ -29,13 +28,11 @@ public class MaterialEducativo {
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.estado = estado;
-        this.usuario = usuario;
-        this.lista_reseñas = new ArrayList<>();
     }
 
     @Override
     public String toString() {
-        return "id_materialEducativo=" + id_materialEducativo + ", categoria=" + categoria + ", nombre=" + nombre + ", anio_publicacion=" + año_publicacion + ", tipo=" + tipo + ", descripcion=" + descripcion + ", estado=" + estado + ", usuario=" + usuario.toString()+ '}';
+        return "id_materialEducativo=" + id_materialEducativo + ", categoria=" + categoria + ", nombre=" + nombre + ", anio_publicacion=" + año_publicacion + ", tipo=" + tipo + ", descripcion=" + descripcion + ", estado=" + estado + '}';
     }
 
 
@@ -139,35 +136,6 @@ public class MaterialEducativo {
         this.estado = estado;
     }
 
-    /**
-     * @return the usuario
-     */
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    /**
-     * @param usuario the usuario to set
-     */
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    /**
-     * @return the lista_reseñas
-     */
-    public List<Reseña> getLista_reseñas() {
-        return lista_reseñas;
-    }
-
-    /**
-     * @param lista_reseñas the lista_reseñas to set
-     */
-    public void setLista_reseñas(List<Reseña> lista_reseñas) {
-        this.lista_reseñas = lista_reseñas;
-    }
-    
-    
     
     
     

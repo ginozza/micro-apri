@@ -193,7 +193,7 @@ public String obtenerNombreLibro(int idMaterial) throws Exception {
                boolean estado = rs.getBoolean("estado");
                String tipo = rs.getString("tipo");               
                listaM.add(new MaterialEducativo(idMaterialEducativo,
-                       categoria, nombre, anioPublicacion, tipo, descripcion, estado,null));
+                       categoria, nombre, anioPublicacion, tipo, descripcion, estado));
                
                 
             }

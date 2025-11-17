@@ -40,7 +40,7 @@ public class ArticuloServicio {
        public boolean eliminarArticulo(int idMaterialEducativo) throws Exception {
     if(idMaterialEducativo > 0) {
         try {
-            Articulo articulo = new Articulo(0, 0, idMaterialEducativo, "", "", null, "", "", false, null);
+            Articulo articulo = new Articulo(0, 0, idMaterialEducativo, "", "", null, "", "", false);
             return daoArticulo.eliminar(articulo);
         } catch (Exception ex) {
             System.err.println("Error en servicio al eliminar artículo: " + ex.getMessage());

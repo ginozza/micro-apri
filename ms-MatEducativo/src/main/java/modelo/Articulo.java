@@ -15,8 +15,8 @@ public class Articulo extends MaterialEducativo {
         this.cantidad_paginas = cantidad_paginas;
     }
 
-    public Articulo(int volumen, int cantidad_paginas, int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion, String tipo, String descripcion, boolean estado, Usuario usuario) {
-        super(id_materialEducativo, categoria, nombre, año_publicacion, tipo, descripcion, estado, usuario);
+    public Articulo(int volumen, int cantidad_paginas, int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion, String tipo, String descripcion, boolean estado) {
+        super(id_materialEducativo, categoria, nombre, año_publicacion, tipo, descripcion, estado);
         this.volumen = volumen;
         this.cantidad_paginas = cantidad_paginas;
     }

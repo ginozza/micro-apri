@@ -1,8 +1,6 @@
 
 package modelo;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Leccion {
@@ -11,19 +9,17 @@ public class Leccion {
     private String titulo;
     private String url_video;
     private String descripcion;
-    private List<PQRs> lista_PQRs;
 
     public Leccion(int id_leccion, String titulo, String url_video, String descripcion) {
         this.id_leccion = id_leccion;
         this.titulo = titulo;
         this.url_video = url_video;
         this.descripcion = descripcion;
-        this.lista_PQRs = new ArrayList<>();
     }
 
     @Override
     public String toString() {
-        return "Leccion{" + "id_leccion=" + id_leccion + ", titulo=" + titulo + ", url_video=" + url_video + ", descripcion=" + descripcion + ", lista_PQRs=" + lista_PQRs + '}';
+        return "Leccion{" + "id_leccion=" + id_leccion + ", titulo=" + titulo + ", url_video=" + url_video + ", descripcion=" + descripcion + '}';
     }
 
     
@@ -85,19 +81,5 @@ public class Leccion {
         this.descripcion = descripcion;
     }
 
-    /**
-     * @return the lista_PQRs
-     */
-    public List<PQRs> getLista_PQRs() {
-        return lista_PQRs;
-    }
 
-    /**
-     * @param lista_PQRs the lista_PQRs to set
-     */
-    public void setLista_PQRs(List<PQRs> lista_PQRs) {
-        this.lista_PQRs = lista_PQRs;
-    }
-    
-    
 }

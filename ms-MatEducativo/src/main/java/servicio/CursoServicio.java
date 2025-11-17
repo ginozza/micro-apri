@@ -41,7 +41,7 @@ public class CursoServicio {
      public boolean eliminarCurso(int idMaterialEducativo) throws Exception {
     if(idMaterialEducativo > 0) {
         try {
-            Curso curso = new Curso(0, 0, idMaterialEducativo, "", "", null, "", false, null, "");
+            Curso curso = new Curso(0, 0, idMaterialEducativo, "", "", null, "", false, "");
             return daoCurso.eliminar(curso);
         } catch (Exception ex) {
             System.err.println("Error en servicio al eliminar curso: " + ex.getMessage());

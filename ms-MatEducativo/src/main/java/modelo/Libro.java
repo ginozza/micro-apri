@@ -11,16 +11,11 @@ public class Libro extends MaterialEducativo {
     private int cantidad_paginas;
 
 
-    public Libro(int edicion, String editorial, int cantidad_paginas, int id_materialEducativo, String categoria, String nombre, LocalDate año_publicacion, String tipo, String descripcion, boolean estado, Usuario usuario) {
-        super(id_materialEducativo, categoria, nombre, año_publicacion, tipo, descripcion, estado, usuario);
-        this.edicion = edicion;
-        this.editorial = editorial;
-        this.cantidad_paginas = cantidad_paginas;
-    }
+ 
     public Libro(int edicion, String editorial, int cantidad_paginas, int id_materialEducativo, 
             String categoria, String nombre, LocalDate año_publicacion, String tipo, String descripcion,
             boolean estado) {
-        super(id_materialEducativo, categoria, nombre, año_publicacion, tipo, descripcion, estado, null);
+        super(id_materialEducativo, categoria, nombre, año_publicacion, tipo, descripcion, estado);
         this.edicion = edicion;
         this.editorial = editorial;
         this.cantidad_paginas = cantidad_paginas;

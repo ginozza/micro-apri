@@ -8,15 +8,18 @@ import modelo.Usuario;
 import org.mindrot.jbcrypt.BCrypt;
 import persistencia.DaoUsuario;
 import persistencia.DaoUsuarioImpPostgres;
+import persistencia.FabConexion;
 
 
 public class RegistroServicio {
     
     
     private final DaoUsuario daoUser;
+    FabConexion fab ;
 
     public RegistroServicio() {
-        this.daoUser = new DaoUsuarioImpPostgres();
+        fab = new FabConexion();
+        this.daoUser = fab.getConexionBD("POSTGRES");
     }
     
     public String hashearPassword(String password){

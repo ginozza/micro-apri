@@ -5,6 +5,7 @@ dto\DtoUsuarioLogin.class
 integracion\MatEducativoClienteHttp$1.class
 presentacion\UsuarioControll.class
 com\apri\ms\user\JakartaRestConfiguration.class
+persistencia\ConexionMongoDB.class
 persistencia\DaoUsuario.class
 servicio\RegistroServicio.class
 persistencia\DaoUsuarioImpMongo.class

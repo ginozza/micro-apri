@@ -2,7 +2,6 @@
 package persistencia;
 
 import dto.DtoMatEducativo;
-import edu.apri.collections.CircularList;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
@@ -53,9 +52,9 @@ public class DaoLibroImp implements DaoLibro{
     @Override
     public List<DtoMatEducativo> buscarListUser(int user) throws Exception {
         
-        List<DtoMatEducativo> listaM = new CircularList<>();
+        List<DtoMatEducativo> listaM = new ArrayList<>();
         
-        String sql = "SELECT * FROM materiales_educativos WHERE id_usuario = ?";
+        String sql = "SELECT * FROM materiales_educativos WHERE id_usuario = ? AND estado = TRUE";
         
         try(Connection conn =  ConexionBD.getInstancia().getConexion();
                 PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -93,10 +92,70 @@ public class DaoLibroImp implements DaoLibro{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public boolean eliminar(Libro libro) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   @Override
+public boolean eliminar(Libro libro) throws Exception {
+    String sql = "UPDATE libros SET estado = FALSE WHERE id_material_educativo = ?";
+    
+    try(Connection conn = ConexionBD.getInstancia().getConexion();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+        
+        stmt.setInt(1, libro.getId_materialEducativo());
+        
+        int filasAfectadas = stmt.executeUpdate();
+        System.out.println("Libro eliminado (soft delete), filas afectadas: " + filasAfectadas);
+        
+        return filasAfectadas > 0;
+        
+    } catch (SQLException ex) {
+        throw new ApriException("Error al eliminar el libro: " + ex.getMessage());
     }
+}
+
+public InputStream obtenerPDF(int idMaterial) throws Exception {
+    String sql = "SELECT archivopdf, nombre FROM libros WHERE id_material_educativo = ? AND estado = TRUE";
+    
+    try(Connection conn = ConexionBD.getInstancia().getConexion();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+        
+        stmt.setInt(1, idMaterial);
+        ResultSet rs = stmt.executeQuery();
+        
+        if(rs.next()) {
+            InputStream pdfStream = rs.getBinaryStream("archivopdf");
+            if(pdfStream != null) {
+                return pdfStream;
+            } else {
+                throw new ApriException("El libro no tiene archivo PDF asociado");
+            }
+        } else {
+            throw new ApriException("Libro no encontrado");
+        }
+        
+    } catch (SQLException ex) {
+        throw new ApriException("Error al obtener el PDF del libro: " + ex.getMessage());
+    }
+}
+
+public String obtenerNombreLibro(int idMaterial) throws Exception {
+    String sql = "SELECT nombre FROM libros WHERE id_material_educativo = ?";
+    
+    try(Connection conn = ConexionBD.getInstancia().getConexion();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+        
+        stmt.setInt(1, idMaterial);
+        ResultSet rs = stmt.executeQuery();
+        
+        if(rs.next()) {
+            return rs.getString("nombre");
+        }
+        return "libro";
+        
+    } catch (SQLException ex) {
+        return "libro";
+    }
+}
+
+
 
     @Override
     public List<Libro> listar() throws Exception {
@@ -117,7 +176,7 @@ public class DaoLibroImp implements DaoLibro{
     public List<MaterialEducativo> listarM() {
         List<MaterialEducativo> listaM = new ArrayList<>();
         int cont=1;
-        String sql = "SELECT * FROM materiales_educativos";
+        String sql = "SELECT * FROM materiales_educativos WHERE estado = TRUE";
         
         try(Connection conn =  ConexionBD.getInstancia().getConexion();
                 PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -139,6 +198,11 @@ public class DaoLibroImp implements DaoLibro{
                 
             }
             
+            
+            
+            
+            
+         
         } catch (SQLException e) {
             System.err.println("Error SQL al consultar materiales educativos: " + e.getMessage());
         } catch (NullPointerException e) {

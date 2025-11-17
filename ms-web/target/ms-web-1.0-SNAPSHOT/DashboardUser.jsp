@@ -22,10 +22,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
        integrity="sha512-SnH5WK+bZxgIk9lKMdQXWf5fL8pT..." 
        crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
 
+       
+    
     <body>
         
         <%
@@ -116,12 +119,10 @@
 
                 </div>
 
-                <!-- Barra de búsqueda -->
                 <div class="search-bar">
                     <input type="text" id="buscar" placeholder="Buscar por título o tipo" class="search-input">
                 </div>
 
-                <!-- Tabla de materiales educativos -->
                 <div class="table-container">
                     <div class="table-header">
                         <h2 class="table-title">Mis Materiales Educativos <i class="fa-solid fa-book"></i></h2>
@@ -164,31 +165,41 @@
                                     </span>
                                 </td>
                                 <td class="descripcion-cell"><%=mat.descripcion()%></td>
-                                <td>
-                                    <%if(mat.tipo().equals("curso")){%>
-                                    <a href="#" 
-                                       class="action-btn delete-btn" 
-                                       onclick="return confirm('¿Estás seguro de eliminar este material?')">
-                                        <i class="fa-solid fa-trash"></i> Eliminar
-                                    </a>
-                                    <%}else{%>
-                                    <a href="#" class="action-btn view-btn">
-                                        <i class="fa-solid fa-eye"></i> Descargar
-                                    </a>
-                                    <a href="#" 
-                                       class="action-btn delete-btn" 
-                                       onclick="return confirm('¿Estás seguro de eliminar este material?')">
-                                        <i class="fa-solid fa-trash"></i> Eliminar
-                                    </a>
-                                    <%}%>
-                                </td>
+             <td>
+    <%if(mat.tipo().equals("curso")){%>
+    <a href="<%=Ruta.MS_MATEDU_URL%>/CursoControll?accion=eliminar&id=<%=mat.id_materialEducativo()%>" 
+       class="action-btn delete-btn" 
+       onclick="return confirm('¿Estás seguro de eliminar este material?')">
+        <i class="fa-solid fa-trash"></i> Eliminar
+    </a>
+    <%}else if(mat.tipo().equals("libro")){%>
+    <a href="<%=Ruta.MS_MATEDU_URL%>/LibroControll?accion=descargar&id=<%=mat.id_materialEducativo()%>" 
+       class="action-btn view-btn">
+        <i class="fa-solid fa-download"></i> Descargar
+    </a>
+    <a href="<%=Ruta.MS_MATEDU_URL%>/LibroControll?accion=eliminar&id=<%=mat.id_materialEducativo()%>" 
+       class="action-btn delete-btn" 
+       onclick="return confirm('¿Estás seguro de eliminar este material?')">
+        <i class="fa-solid fa-trash"></i> Eliminar
+    </a>
+    <%}else{%>
+    <a href="<%=Ruta.MS_MATEDU_URL%>/ArticuloControll?accion=descargar&id=<%=mat.id_materialEducativo()%>" 
+       class="action-btn view-btn">
+        <i class="fa-solid fa-download"></i> Descargar
+    </a>
+    <a href="<%=Ruta.MS_MATEDU_URL%>/ArticuloControll?accion=eliminar&id=<%=mat.id_materialEducativo()%>" 
+       class="action-btn delete-btn" 
+       onclick="return confirm('¿Estás seguro de eliminar este material?')">
+        <i class="fa-solid fa-trash"></i> Eliminar
+    </a>
+    <%}%>
+</td>
                             </tr>
                             <%}%>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Script de búsqueda -->
                 <script>
                     document.getElementById("buscar").addEventListener("keyup", function() {
                         let filtro = this.value.toLowerCase();
@@ -207,5 +218,36 @@
 
             </main>
         </div>
+    
+     <%
+    String errorMsg = request.getParameter("error");
+    String successMsg = request.getParameter("success");
+%>
+
+<% if (errorMsg != null) { %>
+    <script>
+        Swal.fire({
+            title: 'Error',
+            text: '<%= errorMsg %>',
+            icon: 'error',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#e53e3e'
+        });
+    </script>
+<% } %>
+
+<% if (successMsg != null) { %>
+    <script>
+        Swal.fire({
+            title: '¡Éxito!',
+            text: '<%= successMsg %>',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#48bb78',
+            timer: 2000
+        });
+    </script>
+    <% } %>
+       
     </body>
 </html>

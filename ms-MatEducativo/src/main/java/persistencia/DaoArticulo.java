@@ -16,4 +16,8 @@ public interface DaoArticulo {
     public List<Articulo> listar() throws Exception; 
     public boolean cambiarEstadoF(int id) throws Exception;
     public boolean cambiarEstadoT(int id) throws Exception;
+
+    public String obtenerNombreArticulo(int idMaterial) throws Exception;
+
+    public InputStream obtenerPDF(int idMaterial) throws Exception;
 }

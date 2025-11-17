@@ -13,10 +13,15 @@ public interface DaoLibro {
     public boolean registrar(Libro libro, InputStream inputStream, int id_usuario) throws Exception;
     public boolean actualizar(Libro libro) throws Exception;
     public boolean eliminar(Libro libro) throws Exception;
+    
     public List<Libro> listar() throws Exception; 
     public boolean cambiarEstadoF(int id) throws Exception;
     public boolean cambiarEstadoT(int id) throws Exception;
     public List<DtoMatEducativo> buscarListUser(int id) throws Exception;
 
     public List<MaterialEducativo> listarM();
+
+    public InputStream obtenerPDF(int idMaterial) throws Exception;
+
+    public String obtenerNombreLibro(int idMaterial) throws Exception;
 }

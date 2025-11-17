@@ -6,7 +6,7 @@ import java.io.InputStream;
 import persistencia.ApriException;
 import persistencia.DaoArticulo;
 import persistencia.DaoArticuloImpPostgres;
-
+import modelo.Articulo;
 
 
 public class ArticuloServicio {
@@ -17,8 +17,6 @@ public class ArticuloServicio {
     public ArticuloServicio(){
         daoArticulo = new DaoArticuloImpPostgres();
     }
-    
-    
     
     
     
@@ -39,6 +37,43 @@ public class ArticuloServicio {
         return false;
         }
 
-       
+       public boolean eliminarArticulo(int idMaterialEducativo) throws Exception {
+    if(idMaterialEducativo > 0) {
+        try {
+            Articulo articulo = new Articulo(0, 0, idMaterialEducativo, "", "", null, "", "", false, null);
+            return daoArticulo.eliminar(articulo);
+        } catch (Exception ex) {
+            System.err.println("Error en servicio al eliminar artículo: " + ex.getMessage());
+            throw new ApriException("Fallo al eliminar el artículo: " + ex.getMessage());
+        }
+    }
+    return false;
+}
     
+ public InputStream descargarArticuloPDF(int idMaterial) throws Exception {
+    if(idMaterial > 0) {
+        try {
+            return daoArticulo.obtenerPDF(idMaterial);
+        } catch (Exception ex) {
+            System.err.println("Error en servicio al descargar artículo: " + ex.getMessage());
+            throw new ApriException("Fallo al descargar el artículo: " + ex.getMessage());
+        }
+    }
+    throw new ApriException("ID de material inválido");
+}
+
+public String obtenerNombreArticulo(int idMaterial) throws Exception {
+    if(idMaterial > 0) {
+        try {
+            return daoArticulo.obtenerNombreArticulo(idMaterial);
+        } catch (Exception ex) {
+            return "articulo";
+        }
+    }
+    return "articulo";
+}      
+       
+       
+       
+       
 }

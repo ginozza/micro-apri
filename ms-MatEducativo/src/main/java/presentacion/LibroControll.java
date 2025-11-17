@@ -50,9 +50,9 @@ public class LibroControll extends HttpServlet {
         
         switch (accion) {
             case "buscarMaterialPorUsuario" -> buscarMaterialPorUsuarioJSON(request, response);
-            case "matEducativos" -> {
-                listarMateriales(request,response);
-            }
+            case "matEducativos" -> { listarMateriales(request,response);}
+            case "eliminar" -> eliminarLibro(request, response);
+             case "descargar" -> descargarLibro(request, response); // NUEVO
             default -> response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
         }
     }
@@ -116,6 +116,106 @@ public class LibroControll extends HttpServlet {
             out.flush();
         }
     }
+    
+    private void eliminarLibro(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
+        String idMatStr = request.getParameter("id");
+        
+        if (idMatStr == null || idMatStr.isEmpty()) {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=ID no proporcionado");
+            return;
+        }
+        
+        int idMaterial = Integer.parseInt(idMatStr);
+        
+        boolean eliminado = subirMatServicio.eliminarLibro(idMaterial);
+        
+        if (eliminado) {
+            System.out.println("Libro eliminado exitosamente con ID: " + idMaterial);
+            // Redirigir al dashboard del usuario
+            response.sendRedirect(Ruta.MS_USUARIO_URL + "/UsuarioControll?accion=dashboardUser");
+        } else {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=No se pudo eliminar el libro");
+        }
+        
+    } catch (NumberFormatException e) {
+        response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=ID inválido");
+    } catch (Exception e) {
+        response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=Error al eliminar: " + e.getMessage());
+    }
+}
+    
+    
+private void descargarLibro(HttpServletRequest request, HttpServletResponse response) 
+        throws IOException {
+    InputStream pdfStream = null;
+    
+    try {
+        String idMatStr = request.getParameter("id");
+        
+        if (idMatStr == null || idMatStr.isEmpty()) {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=ID no proporcionado");
+            return;
+        }
+        
+        int idMaterial;
+        try {
+            idMaterial = Integer.parseInt(idMatStr);
+        } catch (NumberFormatException e) {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=ID inválido");
+            return;
+        }
+        
+        String nombreLibro = subirMatServicio.obtenerNombreLibro(idMaterial);
+        if (nombreLibro == null) {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=Libro no encontrado");
+            return;
+        }
+        
+        String nombreArchivo = nombreLibro.replaceAll("[^a-zA-Z0-9.-]", "_") + ".pdf";
+        
+        pdfStream = subirMatServicio.descargarLibroPDF(idMaterial);
+        if (pdfStream == null) {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=PDF no disponible");
+            return;
+        }
+        
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + nombreArchivo + "\"");
+        
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+        
+        while ((bytesRead = pdfStream.read(buffer)) != -1) {
+            response.getOutputStream().write(buffer, 0, bytesRead);
+        }
+        
+        response.getOutputStream().flush();
+        System.out.println("Libro descargado exitosamente: " + nombreArchivo);
+        
+    } catch (Exception e) {
+        
+        System.err.println("Error al descargar libro: " + e.getMessage());
+        e.printStackTrace();
+        
+       
+        if (!response.isCommitted()) {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=Error al descargar");
+        }
+    } finally {
+        if (pdfStream != null) {
+            try {
+                pdfStream.close();
+            } catch (IOException e) {
+                System.err.println("Error cerrando stream: " + e.getMessage());
+            }
+        }
+    }
+}
+    
+    
+    
+    
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

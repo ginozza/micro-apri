@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import servicio.ArticuloServicio;
 import utilidad.Ruta;
 
@@ -38,12 +39,111 @@ public class ArticuloControll extends HttpServlet {
             throws ServletException, IOException {
     }
     
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-      
+@Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    
+    String accion = request.getParameter("accion");
+    
+    if (accion == null || accion.isEmpty()) {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no proporcionada");
+        return;
     }
+    
+    switch (accion) {
+        case "eliminar":
+            eliminarArticulo(request, response);
+            break;
+            
+        case "descargar":
+            descargarArticulo(request, response);
+            break;
+            
+        default:
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida: " + accion);
+    }
+}
+
+private void eliminarArticulo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
+        String idMatStr = request.getParameter("id");
+        
+        if (idMatStr == null || idMatStr.isEmpty()) {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=ID no proporcionado");
+            return;
+        }
+        
+        int idMaterial = Integer.parseInt(idMatStr);
+        
+        boolean eliminado = articuloServicio.eliminarArticulo(idMaterial);
+        
+        if (eliminado) {
+            System.out.println("Artículo eliminado exitosamente con ID: " + idMaterial);
+            response.sendRedirect(Ruta.MS_USUARIO_URL + "/UsuarioControll?accion=dashboardUser");
+        } else {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=No se pudo eliminar el artículo");
+        }
+        
+    } catch (NumberFormatException e) {
+        response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=ID inválido");
+    } catch (Exception e) {
+        response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=Error al eliminar: " + e.getMessage());
+    }
+}
+
+private void descargarArticulo(HttpServletRequest request, HttpServletResponse response) 
+        throws IOException {
+    InputStream pdfStream = null;
+    
+    try {
+        String idMatStr = request.getParameter("id");
+        
+        if (idMatStr == null || idMatStr.isEmpty()) {
+            response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=ID no proporcionado");
+            return;
+        }
+        
+        int idMaterial = Integer.parseInt(idMatStr);
+        
+        // Obtener nombre del artículo
+        String nombreArticulo = articuloServicio.obtenerNombreArticulo(idMaterial);
+        String nombreArchivo = nombreArticulo.replaceAll("[^a-zA-Z0-9.-]", "_") + ".pdf";
+        
+        // Obtener el PDF
+        pdfStream = articuloServicio.descargarArticuloPDF(idMaterial);
+        
+        // Configurar respuesta
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + nombreArchivo + "\"");
+        
+        // Copiar stream
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+        
+        while ((bytesRead = pdfStream.read(buffer)) != -1) {
+            response.getOutputStream().write(buffer, 0, bytesRead);
+        }
+        
+        response.getOutputStream().flush();
+        System.out.println("Artículo descargado exitosamente: " + nombreArchivo);
+        
+    } catch (NumberFormatException e) {
+        response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=ID inválido");
+    } catch (Exception e) {
+        System.err.println("Error al descargar artículo: " + e.getMessage());
+        response.sendRedirect(Ruta.MS_WEB + "/DashboardUser.jsp?error=Error al descargar: " + e.getMessage());
+    } finally {
+        if (pdfStream != null) {
+            try {
+                pdfStream.close();
+            } catch (IOException e) {
+                System.err.println("Error cerrando stream: " + e.getMessage());
+            }
+        }
+    }
+}
+
+
 
     
     @Override
@@ -59,6 +159,7 @@ public class ArticuloControll extends HttpServlet {
         
         switch (accion) {
             case "register" -> registrarArticulo(request,response);
+            case "eliminar" -> eliminarArticulo(request, response);
             default -> throw new AssertionError();
         }
        
@@ -100,7 +201,9 @@ public class ArticuloControll extends HttpServlet {
             System.out.println("ESTÁ VACÍO");
         }
 
-
+        
+        
+      
    
         int id_usuario = Integer.parseInt(request.getParameter("idUsuario"));
         System.out.println("Id del usuario que va a guardar el libro: "+id_usuario);
@@ -123,6 +226,15 @@ public class ArticuloControll extends HttpServlet {
         
 
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * Clase interna para respuestas de error

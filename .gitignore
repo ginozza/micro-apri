@@ -3,3 +3,5 @@
 /ms-resena/target/
 /ms-web2/target/
 /ms-web-resenas/target/
+# Ignore all Maven build output folders in any module
+**/target/

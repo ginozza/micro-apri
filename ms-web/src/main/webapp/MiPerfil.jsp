@@ -290,6 +290,11 @@
                         <h1>Mi Perfil</h1>
                         <p>Gestiona tu información personal</p>
                     </div>
+                    <div class="header-right">
+                        <button onclick="history.back()" class="add-cancel-btn">
+                            <i class="fa-solid fa-arrow-left"></i> Volver
+                        </button>
+                    </div>
                 </header>
 
                 <div class="profile-container">
@@ -447,12 +452,7 @@
                         </div>
                     </form>
 
-                    <a href="<%=Ruta.MS_USUARIO_URL%>/UsuarioControll?accion=dashboardUser">
-                        <button class="back-btn">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Regresar al Dashboard
-                        </button>
-                    </a>
+                    
                 </div>
             </main>
         </div>

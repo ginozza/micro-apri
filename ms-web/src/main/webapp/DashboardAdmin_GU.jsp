@@ -16,9 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración-Gestion usuarios</title>
     <link rel="stylesheet" href="css/styleDashboardAdmin.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
-      integrity="sha512-SnH5WK+bZxgIk9lKMdQXWf5fL8pT..." 
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
 
 </head>

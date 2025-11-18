@@ -220,7 +220,34 @@
 
         function eliminarResena(idResena) {
             Swal.fire({ title: '¿Estás seguro?', text: 'Esta acción no se puede deshacer', icon: 'warning', showCancelButton: true, confirmButtonColor: '#dc3545', cancelButtonColor: '#6c757d', confirmButtonText: 'Sí, eliminar', cancelButtonText: 'Cancelar' })
-                .then((result) => { if (result.isConfirmed) { window.location.href = 'ResenaControl?accion=eliminar&idResena=' + idResena + '&redirectUrl=' + encodeURIComponent(window.location.href); } });
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = 'ResenaControl';
+
+                        const accion = document.createElement('input');
+                        accion.type = 'hidden';
+                        accion.name = 'accion';
+                        accion.value = 'eliminar';
+                        form.appendChild(accion);
+
+                        const id = document.createElement('input');
+                        id.type = 'hidden';
+                        id.name = 'idResena';
+                        id.value = String(idResena);
+                        form.appendChild(id);
+
+                        const redirect = document.createElement('input');
+                        redirect.type = 'hidden';
+                        redirect.name = 'redirectUrl';
+                        redirect.value = window.location.href;
+                        form.appendChild(redirect);
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
         }
 
         function reportarResena(idResena) {
